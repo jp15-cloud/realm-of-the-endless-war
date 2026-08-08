@@ -99,7 +99,11 @@ function Landing() {
             <a className="transition-colors hover:text-gold" href="#enlist">
               Enlist
             </a>
+            <Link className="text-gold transition-colors hover:text-foreground" to="/character">
+              My Character
+            </Link>
           </nav>
+
         </div>
       </header>
 
