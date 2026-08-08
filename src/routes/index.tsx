@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import heroWar from "@/assets/hero-war.jpg";
 import worldImg from "@/assets/world.jpg";
@@ -99,7 +99,11 @@ function Landing() {
             <a className="transition-colors hover:text-gold" href="#enlist">
               Enlist
             </a>
+            <Link className="text-gold transition-colors hover:text-foreground" to="/character">
+              My Character
+            </Link>
           </nav>
+
         </div>
       </header>
 
