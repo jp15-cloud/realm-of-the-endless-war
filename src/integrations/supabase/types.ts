@@ -14,7 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          bloodwood: number
+          character_name: string
+          clan: string | null
+          class: string
+          created_at: string
+          experience: number
+          faction: string
+          id: string
+          level: number
+          ore: number
+          relics: number
+          renown: number
+          updated_at: string
+        }
+        Insert: {
+          bloodwood?: number
+          character_name?: string
+          clan?: string | null
+          class?: string
+          created_at?: string
+          experience?: number
+          faction?: string
+          id: string
+          level?: number
+          ore?: number
+          relics?: number
+          renown?: number
+          updated_at?: string
+        }
+        Update: {
+          bloodwood?: number
+          character_name?: string
+          clan?: string | null
+          class?: string
+          created_at?: string
+          experience?: number
+          faction?: string
+          id?: string
+          level?: number
+          ore?: number
+          relics?: number
+          renown?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
