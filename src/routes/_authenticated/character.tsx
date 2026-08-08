@@ -83,7 +83,7 @@ function CharacterPage() {
     }
   }, [profile]);
 
-  async function persist(patch: Record<string, unknown>) {
+  async function persist(patch: Partial<Omit<Profile, "id" | "updated_at">>) {
     if (!profile) return;
     setSaving(true);
     setMessage(null);
