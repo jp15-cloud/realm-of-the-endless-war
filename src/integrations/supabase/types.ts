@@ -14,18 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      clans: {
+        Row: {
+          created_at: string
+          id: string
+          leader_id: string
+          name: string
+          renown: number
+          tag: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          leader_id: string
+          name: string
+          renown?: number
+          tag: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          leader_id?: string
+          name?: string
+          renown?: number
+          tag?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           bloodwood: number
           character_name: string
           clan: string | null
+          clan_id: string | null
           class: string
           created_at: string
+          deaths: number
           experience: number
           faction: string
+          gold: number
+          hp: number
           id: string
+          kills: number
           level: number
+          max_hp: number
+          online_at: string
           ore: number
+          pos_x: number
+          pos_y: number
           relics: number
           renown: number
           updated_at: string
@@ -34,13 +73,22 @@ export type Database = {
           bloodwood?: number
           character_name?: string
           clan?: string | null
+          clan_id?: string | null
           class?: string
           created_at?: string
+          deaths?: number
           experience?: number
           faction?: string
+          gold?: number
+          hp?: number
           id: string
+          kills?: number
           level?: number
+          max_hp?: number
+          online_at?: string
           ore?: number
+          pos_x?: number
+          pos_y?: number
           relics?: number
           renown?: number
           updated_at?: string
@@ -49,25 +97,130 @@ export type Database = {
           bloodwood?: number
           character_name?: string
           clan?: string | null
+          clan_id?: string | null
           class?: string
           created_at?: string
+          deaths?: number
           experience?: number
           faction?: string
+          gold?: number
+          hp?: number
           id?: string
+          kills?: number
           level?: number
+          max_hp?: number
+          online_at?: string
           ore?: number
+          pos_x?: number
+          pos_y?: number
           relics?: number
           renown?: number
           updated_at?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_clan_id_fkey"
+            columns: ["clan_id"]
+            isOneToOne: false
+            referencedRelation: "clans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      resource_nodes: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          kind: string
+          max_amount: number
+          respawn_at: string | null
+          updated_at: string
+          x: number
+          y: number
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          id?: string
+          kind: string
+          max_amount?: number
+          respawn_at?: string | null
+          updated_at?: string
+          x: number
+          y: number
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          kind?: string
+          max_amount?: number
+          respawn_at?: string | null
+          updated_at?: string
+          x?: number
+          y?: number
+        }
         Relationships: []
+      }
+      territories: {
+        Row: {
+          captured_at: string | null
+          created_at: string
+          id: string
+          name: string
+          owner_clan_id: string | null
+          radius: number
+          updated_at: string
+          x: number
+          y: number
+        }
+        Insert: {
+          captured_at?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          owner_clan_id?: string | null
+          radius?: number
+          updated_at?: string
+          x: number
+          y: number
+        }
+        Update: {
+          captured_at?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          owner_clan_id?: string | null
+          radius?: number
+          updated_at?: string
+          x?: number
+          y?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "territories_owner_clan_id_fkey"
+            columns: ["owner_clan_id"]
+            isOneToOne: false
+            referencedRelation: "clans"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      attack_player: { Args: { _target_id: string }; Returns: Json }
+      capture_territory: { Args: { _territory_id: string }; Returns: Json }
+      create_clan: { Args: { _name: string; _tag: string }; Returns: string }
+      harvest_node: { Args: { _node_id: string }; Returns: Json }
+      heal_tick: { Args: never; Returns: number }
+      join_clan: { Args: { _clan_id: string }; Returns: undefined }
+      respawn_nodes: { Args: never; Returns: undefined }
+      slay_mob: { Args: { _mob_level: number }; Returns: Json }
+      take_damage: { Args: { _amount: number }; Returns: Json }
     }
     Enums: {
       [_ in never]: never
