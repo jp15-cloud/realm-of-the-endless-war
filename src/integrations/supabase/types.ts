@@ -216,6 +216,7 @@ export type Database = {
       capture_territory: { Args: { _territory_id: string }; Returns: Json }
       create_clan: { Args: { _name: string; _tag: string }; Returns: string }
       harvest_node: { Args: { _node_id: string }; Returns: Json }
+      heal_tick: { Args: never; Returns: number }
       join_clan: { Args: { _clan_id: string }; Returns: undefined }
       respawn_nodes: { Args: never; Returns: undefined }
       slay_mob: { Args: { _mob_level: number }; Returns: Json }
