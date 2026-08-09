@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedCharacterRouteImport } from './routes/_authenticated/character'
+import { Route as AuthenticatedWorldRouteImport } from './routes/_authenticated/world'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -33,16 +34,23 @@ const AuthenticatedCharacterRoute = AuthenticatedCharacterRouteImport.update({
   path: '/character',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedWorldRoute = AuthenticatedWorldRouteImport.update({
+  id: '/world',
+  path: '/world',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/character': typeof AuthenticatedCharacterRoute
+  '/world': typeof AuthenticatedWorldRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/character': typeof AuthenticatedCharacterRoute
+  '/world': typeof AuthenticatedWorldRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -50,14 +58,20 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/_authenticated/character': typeof AuthenticatedCharacterRoute
+  '/_authenticated/world': typeof AuthenticatedWorldRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/character'
+  fullPaths: '/' | '/auth' | '/character' | '/world'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/character'
+  to: '/' | '/auth' | '/character' | '/world'
   id:
-    '__root__' | '/' | '/_authenticated' | '/auth' | '/_authenticated/character'
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/character'
+    | '/_authenticated/world'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -96,15 +110,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCharacterRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/world': {
+      id: '/_authenticated/world'
+      path: '/world'
+      fullPath: '/world'
+      preLoaderRoute: typeof AuthenticatedWorldRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedCharacterRoute: typeof AuthenticatedCharacterRoute
+  AuthenticatedWorldRoute: typeof AuthenticatedWorldRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCharacterRoute: AuthenticatedCharacterRoute,
+  AuthenticatedWorldRoute: AuthenticatedWorldRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

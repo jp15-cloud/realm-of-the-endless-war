@@ -139,9 +139,15 @@ function CharacterPage() {
           >
             ASHEN DOMINION
           </Link>
-          <Button variant="outline" size="sm" onClick={signOut}>
-            Sign out
-          </Button>
+          <div className="flex gap-2">
+            <Button size="sm" asChild>
+              <Link to="/world">Enter the world</Link>
+            </Button>
+            <Button variant="outline" size="sm" onClick={signOut}>
+              Sign out
+            </Button>
+          </div>
+
         </div>
 
         <h1 className="mt-8 font-[family-name:var(--font-display)] text-4xl font-bold">
