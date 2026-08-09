@@ -10,6 +10,8 @@ import {
   MOB_ATTACK_RANGE,
   PLAYER_SPEED,
   PVP_RANGE,
+  SAFE_RADIUS,
+  SPAWN,
   WORLD_SIZE,
   XP_PER_LEVEL,
   clamp,
@@ -514,13 +516,14 @@ function WorldPage() {
           continue;
         }
         const d = dist(m.x, m.y, me.x, me.y);
-        if (d < MOB_AGGRO_RANGE && d > MOB_ATTACK_RANGE * 0.7) {
+        const sanctuary = dist(me.x, me.y, SPAWN.x, SPAWN.y) < SAFE_RADIUS;
+        if (!sanctuary && d < MOB_AGGRO_RANGE && d > MOB_ATTACK_RANGE * 0.7) {
           const speed = 80 + m.level * 4;
           m.x += ((me.x - m.x) / d) * speed * dt;
           m.y += ((me.y - m.y) / d) * speed * dt;
         }
         m.cooldown -= dt;
-        if (d <= MOB_ATTACK_RANGE && m.cooldown <= 0 && me.hp > 0) {
+        if (!sanctuary && d <= MOB_ATTACK_RANGE && m.cooldown <= 0 && me.hp > 0) {
           m.cooldown = 1.6;
           const dmg = 3 + m.level * 2;
           float(me.x, me.y, `-${dmg}`, "damage");
@@ -626,6 +629,18 @@ function WorldPage() {
         online: othersRef.current.size + 1,
       }));
     }, 400);
+    return () => window.clearInterval(t);
+  }, []);
+
+  // Out-of-combat regeneration
+  useEffect(() => {
+    const t = window.setInterval(() => {
+      const me = meRef.current;
+      if (!me.id || me.hp >= me.maxHp) return;
+      void supabase.rpc("heal_tick").then(({ data }) => {
+        if (typeof data === "number" && data > 0) meRef.current.hp = data;
+      });
+    }, 4000);
     return () => window.clearInterval(t);
   }, []);
 
