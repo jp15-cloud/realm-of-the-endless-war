@@ -10,7 +10,8 @@ export const MOB_COUNT = 34;
 export const SPAWN: Vec = { x: 1000, y: 1000 };
 export const SAFE_RADIUS = 280;
 
-export type Vec = { x: number; y: number };
+
+
 
 
 export type RemotePlayer = {
